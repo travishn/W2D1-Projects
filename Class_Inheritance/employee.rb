@@ -14,12 +14,7 @@ class Employee
   end
   
   def bonus(multiplier)
-    if self.class == Employee
-      salary * multiplier
-    else
-      employee_salary = employees.map(&:salary).inject(:+)
-      employee_salary * multiplier
-    end
+    salary * multiplier
   end
 end
 
@@ -43,6 +38,12 @@ class Manager < Employee
     end
     
     name.name
+  end
+  
+  private
+  def bonus(multiplier)
+    employee_salary = employees.map(&:salary).inject(:+)
+    employee_salary * multiplier
   end
 end
 
