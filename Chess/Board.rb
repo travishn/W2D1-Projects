@@ -1,4 +1,5 @@
 require 'Singleton'
+require_relative "piece.rb"
 
 class Board
   attr_reader :grid
@@ -16,11 +17,11 @@ class Board
         
         8.times do |n|
           if n == 0 || n == 7
-            row << Piece.new("Rook")
+            row << Piece.new("R")
           elsif n == 3
-            row << Piece.new("Queen")
+            row << Piece.new("Q")
           elsif n == 4
-            row << Piece.new("King")
+            row << Piece.new("K")
           else
             row << NullPiece.instance
           end
@@ -32,6 +33,8 @@ class Board
         end
       end
     end
+    
+    grid[0][3], grid[0][4] = grid[0][4], grid[0][3]
   end
   
   
@@ -43,7 +46,10 @@ class Board
   end
   
   def valid_pos?(pos)
-    raise "This is not a valid position." unless pos.all? { |num| num.between?(0, 7) }
+    pos.all? { |num| num.between?(0, 7) }
+  end
+  
+  def valid_piece_move?(pos)
   end
   
   def [](pos)
@@ -57,22 +63,6 @@ class Board
   end
 end
 
-class Piece
-  attr_reader :symbol
-  
-  def initialize(symbol = nil)
-    @symbol = symbol
-  end
-end
-
-class NullPiece < Piece
-  include Singleton
-  
-  def initialize
-    @color = nil
-    @symbol = nil
-  end
-end
 
 
 
