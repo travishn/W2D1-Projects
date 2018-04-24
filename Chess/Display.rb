@@ -27,6 +27,8 @@ class Display
 
       puts current_row
     end
+    
+    nil
   end
   
   def test_cursor

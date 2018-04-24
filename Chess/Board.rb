@@ -1,5 +1,7 @@
+require 'byebug'
 require 'Singleton'
 require_relative "piece.rb"
+require_relative "Display.rb"
 
 class Board
   attr_reader :grid
@@ -16,12 +18,13 @@ class Board
         king_pos = 4
         
         8.times do |n|
+          debugger
           if n == 0 || n == 7
-            row << Piece.new("R")
+            row << Piece.new("R", self, [idx, n])
           elsif n == 3
-            row << Piece.new("Q")
+            row << Piece.new("Q", self, [idx, n])
           elsif n == 4
-            row << Piece.new("K")
+            row << Piece.new("K", self, [idx, n])
           else
             row << NullPiece.instance
           end
@@ -62,7 +65,6 @@ class Board
     @grid[row][col] = target
   end
 end
-
 
 
 
