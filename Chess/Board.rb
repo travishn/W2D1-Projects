@@ -16,6 +16,15 @@ class Board
     place_pawns(1, "black")
     place_main(7, "white")
     place_pawns(6, "white")
+    place_nulls
+  end
+  
+  def place_nulls
+    @grid[2..5].each do |row|
+      8.times do |idx|
+        row << NullPiece.instance
+      end
+    end
   end
   
   def place_pawns(row, color)
@@ -30,7 +39,7 @@ class Board
       when 0
         @grid[row] << Rook.new("R", self, [row, idx], color)
       when 1
-        @grid[row] << Knight.new("KN", self, [row, idx], color)
+        @grid[row] << Knight.new("N", self, [row, idx], color)
       when 2
         @grid[row] << Bishop.new("B", self, [row, idx], color)
       when 3
@@ -40,13 +49,25 @@ class Board
       when 5
         @grid[row] << Bishop.new("B", self, [row, idx], color)
       when 6
-        @grid[row] << Knight.new("KN", self, [row, idx], color)
+        @grid[row] << Knight.new("N", self, [row, idx], color)
       when 7
         @grid[row] << Rook.new("R", self, [row, idx], color)
       end
     end
   end
   
+  def in_check?(color)
+    king_pos = find_king(color)
+    
+  end
+  
+  def find_king(color)
+    @grid.each_with_index do |row, idx|
+      row.each_with_index do |piece, idx2|
+        return [idx, idx2] if piece.class == King && piece.color == color
+      end
+    end
+  end
   
   def move_piece(start_pos, end_pos)
     raise "There is no piece at start_pos" if self[start_pos].symbol == nil
@@ -73,6 +94,11 @@ class Board
   end
 end
 
+if __FILE__ == $PROGRAM_NAME
+  test = Board.new
+  test_display = Display.new(test)
+  test_display.render
+end
 
 
 
