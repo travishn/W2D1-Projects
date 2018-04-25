@@ -3,11 +3,11 @@ require_relative "move_module.rb"
 class Piece
   attr_reader :symbol, :color, :pos
   
-  def initialize(symbol, board, pos)
+  def initialize(symbol, board, pos, color)
     @symbol = symbol
     @board = board
     @pos = pos
-    # @color = color
+    @color = color
   end
   
 end
@@ -15,9 +15,8 @@ end
 class Rook < Piece
   include SlidingPiece
   
-  def initialize
-    super("R")
-    # @direction = ["straight"]
+  def initialize(symbol, board, pos, color)
+    super(symbol, board, pos, color)
   end
   
   def moves_dir
@@ -30,9 +29,8 @@ end
 class Bishop < Piece
   include SlidingPiece
   
-  def initialize
-    super("B")
-    # @direction = ["diagonal"]
+  def initialize(symbol, board, pos, color)
+    super(symbol, board, pos, color)
   end
   
   def moves_dir
@@ -45,9 +43,8 @@ end
 class Queen < Piece
   include SlidingPiece
   
-  def initialize
-    super("Q")
-    # @direction = ["straight", "diagonal"]
+  def initialize(symbol, board, pos, color)
+    super(symbol, board, pos, color)
   end
   
   def moves_dir
@@ -59,9 +56,8 @@ end
 class Knight < Piece
   include SteppingPiece
   
-  def initialize
-    super("KN")
-    # @direction = ["L"]
+  def initialize(symbol, board, pos, color)
+    super(symbol, board, pos, color)
   end
   
   def moves_dir
@@ -72,12 +68,24 @@ end
 class King < Piece
   include SteppingPiece
   
-  def initialize
-    super("K")
+  def initialize(symbol, board, pos, color)
+    super(symbol, board, pos, color)
+  end
     
-    def moves_dir
-      [[0,1], [0,-1], [-1,0], [1,0], [1,1], [-1,1], [-1,-1], [1,-1]]
-    end
+  def moves_dir
+    [[0,1], [0,-1], [-1,0], [1,0], [1,1], [-1,1], [-1,-1], [1,-1]]
+  end
+end
+
+class Pawn < Piece
+  include SteppingPiece
+  
+  def initialize(symbol, board, pos, color)
+    super(symbol, board, pos, color)
+  end
+    
+  def moves_dir
+    [[-1, -1], [-1, 0], [-1, 1]]
   end
 end
 

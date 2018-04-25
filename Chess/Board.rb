@@ -12,32 +12,39 @@ class Board
   end
   
   def place_board
-    grid.each_with_index do |row, idx|
-      if idx == 0 || idx == grid.length - 1
-        queen_pos = 3
-        king_pos = 4
-        
-        8.times do |n|
-          debugger
-          if n == 0 || n == 7
-            row << Piece.new("R", self, [idx, n])
-          elsif n == 3
-            row << Piece.new("Q", self, [idx, n])
-          elsif n == 4
-            row << Piece.new("K", self, [idx, n])
-          else
-            row << NullPiece.instance
-          end
-        end
-        
-      else
-        8.times do |n|
-          row << NullPiece.instance
-        end
+    place_main(0, "black")
+    place_pawns(1, "black")
+    place_main(7, "white")
+    place_pawns(6, "white")
+  end
+  
+  def place_pawns(row, color)
+    8.times do |idx|
+      @grid[row] << Pawn.new("P", self, [row, idx], color)
+    end
+  end
+  
+  def place_main(row, color)
+    8.times do |idx|
+      case idx
+      when 0
+        @grid[row] << Rook.new("R", self, [row, idx], color)
+      when 1
+        @grid[row] << Knight.new("KN", self, [row, idx], color)
+      when 2
+        @grid[row] << Bishop.new("B", self, [row, idx], color)
+      when 3
+        @grid[row] << Queen.new("Q", self, [row, idx], color)
+      when 4
+        @grid[row] << King.new("K", self, [row, idx], color)
+      when 5
+        @grid[row] << Bishop.new("B", self, [row, idx], color)
+      when 6
+        @grid[row] << Knight.new("KN", self, [row, idx], color)
+      when 7
+        @grid[row] << Rook.new("R", self, [row, idx], color)
       end
     end
-    
-    grid[0][3], grid[0][4] = grid[0][4], grid[0][3]
   end
   
   
